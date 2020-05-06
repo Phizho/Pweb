@@ -1,0 +1,75 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE database IF NOT EXISTS `projectpweb` ;
+USE `projectpweb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `projectpweb`.`users` (
+  `iduser` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `password` VARCHAR(50) NULL,
+  `salt` VARCHAR(45) NULL,
+  PRIMARY KEY (`iduser`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`items`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `projectpweb`.`items` (
+  `iditem` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `date_posting` DATETIME NULL,
+  `price_intial` DOUBLE NULL,
+  `status` ENUM('OPEN', 'SOLD', 'CANCEL') NULL DEFAULT 'OPEN',
+  `image_extension` VARCHAR(3) NULL,
+  `iduser_owner` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`iditem`),
+  INDEX `fk_items_users_idx` (`iduser_owner` ASC),
+  CONSTRAINT `fk_items_users`
+    FOREIGN KEY (`iduser_owner`)
+    REFERENCES `projectpweb`.`users` (`iduser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`biddings`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `projectpweb`.`biddings` (
+  `iduser` VARCHAR(45) NOT NULL,
+  `iditem` INT NULL,
+  `price_offer` DOUBLE NULL,
+  `is_winner` TINYINT(1) NULL,
+  PRIMARY KEY (`iduser`, `iditem`),
+  INDEX `fk_users_has_items_items1_idx` (`iditem` ASC),
+  INDEX `fk_users_has_items_users1_idx` (`iduser` ASC),
+  CONSTRAINT `fk_users_has_items_users1`
+    FOREIGN KEY (`iduser`)
+    REFERENCES `projectpweb`.`users` (`iduser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_items_items1`
+    FOREIGN KEY (`iditem`)
+    REFERENCES `projectpweb`.`items` (`iditem`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
