@@ -7,9 +7,7 @@
 		$mysqli = new mysqli("localhost","root","","projectpweb");
 		//$query="SELECT * from users WHERE iduser = '$userid'";
 		$res = mysqli_query($mysqli, "SELECT * from users WHERE iduser = '$userid'");
-		echo "9";
 		if(mysqli_num_rows($res) > 0){
-			echo "12";
 			$row = mysqli_fetch_assoc($res);
 			$salt = $row['salt'];
 			$passwordcheck = $row['password'];

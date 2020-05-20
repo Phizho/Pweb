@@ -22,12 +22,5 @@
 		<input type="submit" name="btnlogin" value="btnlogin">
 		<a href="formregister.php">Daftar Disini</a>
 	</form>
-	<?php 
-	if (isset($_POST['btnlogin']))
-	{
-		$_SESSION['userid'] = $_POST['userid'];
-		$_SESSION['password'] = $_POST['pwd'];
-	}
-	 ?>
 </body>
 </html>

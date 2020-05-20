@@ -26,15 +26,5 @@
 		<br><br>
 		<input type="submit" name="btnadd" value="btnadd">
 	</form>
-	<?php 
-	if (isset($_POST['btnadd']))
-	{
-		$_SESSION['userid'] = $_POST['userid'];
-		$_SESSION['password'] = $_POST['password'];
-		$_SESSION['username'] = $_POST['username'];
-		$_SESSION['passwordulang'] = $_POST['passwordulang'];
-		echo "36";
-	}
-	 ?>
 </body>
 </html>
