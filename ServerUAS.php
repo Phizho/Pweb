@@ -6,28 +6,31 @@
 		$password = $_POST['pwd'];
 		$mysqli = new mysqli("localhost","root","","projectpweb");
 		//$query="SELECT * from users WHERE iduser = '$userid'";
-		$res = mysqli_query($mysqli, "SELECT * from users WHERE iduser = '$userid'");
+		$res = mysqli_query($mysqli, "SELECT * from users WHERE iduser = $userid");
 		if(mysqli_num_rows($res) > 0){
 			$row = mysqli_fetch_assoc($res);
 			$salt = $row['salt'];
 			$passwordcheck = $row['password'];
 			$password = sha1(sha1($password).$salt);
-			if($passwordcheck == $passwordcheck){
+			if($passwordcheck == $password){
 				$_SESSION['userid_login'] = $row['iduser'];
 				$_SESSION['password_login'] = $row['password'];
 				$mysqli->close();
-				echo "Login success";
+				header("location: index.php");
+				exit;
 			}
 			else{
 				$_SESSION['error'] = "userid and password are false. Please try again.";
 				header("location: formlogin.php");
 				$mysqli->close();
+				exit;
 			}
 		}
 		else{
 			$_SESSION['error'] = "userid and password are false. Please try again.";
 			header("location: formlogin.php");
 			$mysqli->close();
+			exit;
 		}
 	}
 	elseif(isset($_POST['btnadd'])){

@@ -20,6 +20,8 @@
 		<input type="password" id="pwd" name="pwd">
 		<br><br>
 		<input type="submit" name="btnlogin" value="btnlogin">
+		<br>
+		<p>tidak punya akun??</p>
 		<a href="formregister.php">Daftar Disini</a>
 	</form>
 </body>
