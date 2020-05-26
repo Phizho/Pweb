@@ -14,20 +14,19 @@
 			$password = sha1(sha1($password).$salt);
 			if($passwordcheck == $password){
 				$_SESSION['userid_login'] = $row['iduser'];
-				$_SESSION['password_login'] = $row['password'];
 				$mysqli->close();
 				header("location: index.php");
 				exit;
 			}
 			else{
-				$_SESSION['error'] = "userid and password are false. Please try again.";
+				$_SESSION['error'] = "Userid or password is wrong, please try again.";
 				header("location: formlogin.php");
 				$mysqli->close();
 				exit;
 			}
 		}
 		else{
-			$_SESSION['error'] = "userid and password are false. Please try again.";
+			$_SESSION['error'] = "Userid or password is wrong, please try again.";
 			header("location: formlogin.php");
 			$mysqli->close();
 			exit;
@@ -63,4 +62,24 @@
 			}
 		}
 	}
+	 elseif (isset($_POST['btnbid'])) {
+ 		$mysqli = new mysqli("localhost","root","","projectpweb");
+		$stmt = $mysqli->prepare("INSERT INTO biddings (iduser, iditem, price_offer) VALUES (?,?,?)");
+		$stmt->bind_param("sii",$_SESSION['userid_login'],$_POST['btnbid'],$_POST['bidval']);
+		$stmt->execute();
+		$stmt->close();
+		$mysqli->close();
+		//header("location: index.php");
+ 	}
+ 	elseif (isset($_POST['btnback'])) {
+ 		header("location: index.php");
+ 	}
+ 	elseif (isset($_POST['btnadditem'])) {
+ 		$mysqli = new mysqli("localhost","root","","projectpweb");
+		$stmt = $mysqli->prepare("INSERT INTO items (name, price_initial, image_extension, iduser_owner) VALUES (?,?,?,?)");
+		$stmt->bind_param("sdss",$_POST['name'],$_POST['price'],$_POST['imgExt'], $_SESSION['userid_login']);
+		$stmt->execute();
+		$stmt->close();
+		$mysqli->close();
+ 	}
 ?>

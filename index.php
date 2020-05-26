@@ -87,9 +87,9 @@ if (isset($_SESSION['userid_login']))
 			$imgItem = "gambar/.'$iditem'.'$ext' ";
 			echo "<td><img src='$imgItem'></td>";
 
-			echo "<td>"."<a href='?start=".$row['iditem']."''>" . $row['name'] . "</a>"."</td>";
+			echo "<td>"."<a href='bidding.php?selecteditem=".$row['iditem']."''>" . $row['name'] . "</a>"."</td>";
 			echo "<td>".$row['status']."</td>";
-			echo "<td>".$row['price_intial']."</td>";
+			echo "<td>".$row['price_initial']."</td>";
 			echo "<td>".$row['date_posting']."</td>";
 			echo "<td>".$row['namaUser']."</td>";
 
