@@ -19,7 +19,7 @@
 		<label for="pwd"> Password: </label>
 		<input type="password" id="pwd" name="pwd">
 		<br><br>
-		<input type="submit" name="btnlogin" value="btnlogin">
+		<input type="submit" name="btnlogin" value="login">
 		<br>
 		<p>tidak punya akun??</p>
 		<a href="formregister.php">Daftar Disini</a>

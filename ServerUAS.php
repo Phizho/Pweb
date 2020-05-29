@@ -65,10 +65,11 @@
 	 elseif (isset($_POST['btnbid'])) {
  		$mysqli = new mysqli("localhost","root","","projectpweb");
 		$stmt = $mysqli->prepare("INSERT INTO biddings (iduser, iditem, price_offer) VALUES (?,?,?)");
-		$stmt->bind_param("sii",$_SESSION['userid_login'],$_POST['btnbid'],$_POST['bidval']);
+		$stmt->bind_param("sii",$_SESSION['userid_login'],$_SESSION['iditem'],$_POST['bidval']);
 		$stmt->execute();
 		$stmt->close();
 		$mysqli->close();
+		echo "berhasil";
 		//header("location: index.php");
  	}
  	elseif (isset($_POST['btnback'])) {
@@ -81,5 +82,27 @@
 		$stmt->execute();
 		$stmt->close();
 		$mysqli->close();
+
+		$namaBaru = $_FILES['fileName'];
+
+		if($_FILES['fl']['name']) 	{   	
+			//if no errors...
+			if(!$_FILES['fl']['error'])	{
+				move_uploaded_file($_FILES['fl']['tmp_name'], "gambar/");
+				$message = 'Congratulations!  Your file was accepted.';
+			} else {
+		    	$message = 'Ooops! Your upload triggered the following error: '.$_FILES['fl']['error'];
+		}
+
+		} else { die('You did not select any file!'); }
  	}
+ 	elseif(isset($_GET['userwin'])){
+ 		$userwin = $_GET['userwin'];
+ 		$iditem = $_SESSION['iditem'];
+		$mysqli = new mysqli("localhost","root","","projectpweb");
+		mysqli_query($mysqli,"UPDATE biddings SET is_winner=1 where iduser = '$userwin'");
+		mysqli_query($mysqli,"UPDATE items SET status='SOLD' where iditem = '$iditem'");
+		//header("location: detail.php");
+		$mysqli->close();    
+	}
 ?>
