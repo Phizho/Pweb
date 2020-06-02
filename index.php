@@ -44,12 +44,9 @@
 		 <div class="mainbarmenu"><a href="formlogin.php">Login</a></div>
 		<div class="mainbarmenu"><a href="formregister.php">Register</a></div>
 		<div id="mainbarhome"><a href="index.php">Home</a></div>
-
-	</div>
+	</div> <br><br><br><br><br>
 
 	<?php
-	session_start(); 
-echo $_SESSION['userid_login'];
 if (isset($_SESSION['userid_login']))
 	{
 		$mysqli = new mysqli("localhost","root","","projectpweb");
@@ -68,7 +65,6 @@ if (isset($_SESSION['userid_login']))
 		$mysqli->close();
 		//$end = ($start+$dataperpage > count($arr))?$start+$dataperpage:count($arr);
 
-		echo "<br>";
 		echo "<table border='1'>";
 		
 		$mysqli = new mysqli("localhost","root","","projectpweb");
@@ -84,8 +80,8 @@ if (isset($_SESSION['userid_login']))
 			echo "<tr>";
 			$iditem = $row['iditem'];
 			$ext = $row['image_extension'];
-			$imgItem = "gambar/.'$iditem'.'$ext' ";
-			echo "<br><td><img src='$imgItem'></td>";
+			$imgItem = "imageitems/$iditem.$ext ";
+			echo "<td><img src='$imgItem'></td>";
 
 			echo "<td>"."<a href='bidding.php?selecteditem=".$row['iditem']."''>" . $row['name'] . "</a>"."</td>";
 			echo "<td>".$row['status']."</td>";
@@ -104,5 +100,6 @@ if (isset($_SESSION['userid_login']))
 		}
 	}
 ?>
+	<a href="add.php">tambah item</a>
 </body>
 </html>

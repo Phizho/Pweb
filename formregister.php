@@ -11,7 +11,6 @@
 		echo $_SESSION['error'];
 		
 		session_destroy();
-		echo "14";
 	}
 	 ?>
 	<form method="post" action="ServerUAS.php">
