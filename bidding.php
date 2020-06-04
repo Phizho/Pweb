@@ -2,7 +2,7 @@
 	session_start();
 	if(isset($_GET['selecteditem'])) {
 		$iditem = $_GET['selecteditem'];
-		$mysqli = new mysqli("localhost","root","","projectpweb");
+		$mysqli = new mysqli("localhost","123448","phi006072","123448");
 		$result = mysqli_query($mysqli,"SELECT i.*,u.name as namaUser FROM items i inner join users u on i.iduser_owner = u.iduser where i.iditem = $iditem");
 
 		if ($row = mysqli_fetch_assoc($result))

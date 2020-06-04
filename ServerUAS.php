@@ -4,8 +4,7 @@
 	if(isset($_POST['btnlogin'])){
 		$userid = addslashes($_POST['userid']);
 		$password = $_POST['pwd'];
-		$mysqli = new mysqli("localhost","root","","projectpweb");
-		//$query="SELECT * from users WHERE iduser = '$userid'";
+		$mysqli = new mysqli("localhost","123448","phi006072","123448");
 		$res = mysqli_query($mysqli, "SELECT * from users WHERE iduser = $userid");
 		if(mysqli_num_rows($res) > 0){
 			$row = mysqli_fetch_assoc($res);
@@ -38,7 +37,7 @@
 		$passwordulang = $_POST['passwordulang'];
 		$userid = addslashes($_POST['userid']);
 		if($password != $passwordulang) header("location: formregister.php");
-		$mysqli = new mysqli("localhost","root","","projectpweb");
+		$mysqli = new mysqli("localhost","123448","phi006072","123448");
 		$salt = substr(sha1(SESSION_id().strtotime("now")),0,10);
 		$pwd_hash = addslashes(sha1(sha1($password).$salt));
 
@@ -63,7 +62,7 @@
 		}
 	}
 	 elseif (isset($_POST['btnbid'])) {
- 		$mysqli = new mysqli("localhost","root","","projectpweb");
+ 		$mysqli = new mysqli("localhost","123448","phi006072","123448");
 		$stmt = $mysqli->prepare("INSERT INTO biddings (iduser, iditem, price_offer) VALUES (?,?,?)");
 		$stmt->bind_param("sii",$_SESSION['userid_login'],$_SESSION['iditem'],$_POST['bidval']);
 		$stmt->execute();
@@ -76,7 +75,7 @@
  		header("location: index.php");
  	}
  	elseif (isset($_POST['btnadditem'])) {
- 		$mysqli = new mysqli("localhost","root","","projectpweb");
+ 		$mysqli = new mysqli("localhost","123448","phi006072","123448");
 		$stmt = $mysqli->prepare("INSERT INTO items (name, price_initial, image_extension, iduser_owner) VALUES (?,?,?,?)");
 		$stmt->bind_param("sdss",$_POST['name'],$_POST['price'],$_POST['imgExt'], $_SESSION['userid_login']);
 		$stmt->execute();
@@ -99,10 +98,28 @@
  	elseif(isset($_GET['userwin'])){
  		$userwin = $_GET['userwin'];
  		$iditem = $_SESSION['iditem'];
-		$mysqli = new mysqli("localhost","root","","projectpweb");
+		$mysqli = new mysqli("localhost","123448","phi006072","123448");
 		mysqli_query($mysqli,"UPDATE biddings SET is_winner=1 where iduser = '$userwin'");
 		mysqli_query($mysqli,"UPDATE items SET status='SOLD' where iditem = '$iditem'");
 		//header("location: detail.php");
 		$mysqli->close();    
+	}
+	elseif(isset($_GET['log'])){
+		session_destroy();
+		header("location: index.php");
+	}
+	elseif(isset($_GET['delete'])){
+		$iditem = $_GET['delete'];
+		$ext = $_GET['ext'];
+		$mysqli = new mysqli("localhost","123448","phi006072","123448");
+		mysqli_query($mysqli,"DELETE FROM `items` WHERE `items`.`iditem` = $iditem");
+		$path = "imageItems/$iditem.$ext";
+		if (file_exists($path)) {
+            unlink($path);
+            echo "Item Deleted Succesfully";
+        }
+        echo "<form method='post' action='ServerUAS.php'>
+			  	<input type='submit' name='btnback' value='Go Back'>
+              </form>";
 	}
 ?>

@@ -17,20 +17,17 @@ function resize_image($file, $ex, $iditem) {
     imagecopyresampled($dst, $image, 0, 0, 0, 0, 300, 300, $width, $height);
     if ($ex == 'jpg')
     {
-        $end = imagejpeg($dst,"imageitems/$iditem.jpg");
+        $end = imagejpeg($dst,"imageItems/$iditem.jpg");
     }
     elseif ($ex == 'png')
     {
-        $end = imagepng($dst,"imageitems/$iditem.png");
+        $end = imagepng($dst,"imageItems/$iditem.png");
     }
     return $end;
 }
 ?>
 <?php
-//date_default_timezone_set("Asia/Jakarta");
-   // if (isset($_POST['btnAddItem']))
-    //{
-        $mysqli = new mysqli("localhost","root","","projectpweb");
+        $mysqli = new mysqli("localhost","123448","phi006072","123448");
         $user = $_SESSION['userid_login'];
         $path = $_FILES['file']['name'];
         $ext = pathinfo($path, PATHINFO_EXTENSION);
@@ -38,12 +35,9 @@ function resize_image($file, $ex, $iditem) {
         $stmt->bind_param("ssds",$_SESSION['userid_login'],$_POST['name'],$_POST['price_initial'], $ext);
         $stmt->execute();
         $stmt->close();
-        //$con->query($sql);
 
-        //$sql2 ="SELECT iditem FROM items WHERE iduser_owner = '$_SESSION['userid_login']' ORDER BY iditem DESC LIMIT 1";
         $result = mysqli_query($mysqli,"SELECT iditem FROM items WHERE iduser_owner = '$user' ORDER BY iditem DESC LIMIT 1");
 
-        //$res1 = $con->query($sql2);
         if($row = mysqli_fetch_assoc($result)){    
             $iditem = $row['iditem'];
                 if($ext == 'jpg' || $ext == 'png') {
@@ -52,13 +46,12 @@ function resize_image($file, $ex, $iditem) {
                     $destination = $path."/".$filename;
                     move_uploaded_file($_FILES['file']['tmp_name'], $destination);
                     $img = resize_image($destination, $ext, $iditem);
-                    //imagepng($img,$destination);
+                    echo "You are success add your item";
                 } 
                 else {
                     echo "Tipe file tidak sesuai";
                 }
         }
-        echo "You are success add your item";
-        $mysqli->close(); 
-    //} 
+        
+        $mysqli->close();  
     ?>
